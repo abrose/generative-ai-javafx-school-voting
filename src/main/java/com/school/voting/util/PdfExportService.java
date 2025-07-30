@@ -50,8 +50,9 @@ public class PdfExportService {
     public File exportResults(VotingSession session) throws Exception {
         // Create filename with timestamp
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"));
+        String className = session.getClassName() != null ? session.getClassName() : "Unknown";
         String filename = String.format("VotingResults_%s_%s.pdf", 
-                                       session.getClassName().replaceAll("[^a-zA-Z0-9]", ""), 
+                                       className.replaceAll("[^a-zA-Z0-9]", ""), 
                                        timestamp);
         File outputFile = new File(filename);
         
@@ -98,7 +99,8 @@ public class PdfExportService {
                 .setMarginBottom(10);
         document.add(title);
         
-        Paragraph subtitle = new Paragraph("Class " + session.getClassName() + " - Spokesperson Election")
+        String className = session.getClassName() != null ? session.getClassName() : "Unknown";
+        Paragraph subtitle = new Paragraph("Class " + className + " - Spokesperson Election")
                 .setFont(font)
                 .setFontSize(16)
                 .setFontColor(PRIMARY_COLOR)
@@ -114,13 +116,13 @@ public class PdfExportService {
         infoTable.setWidth(UnitValue.createPercentValue(100));
         
         infoTable.addCell(createInfoCell("Session ID:", headerFont));
-        infoTable.addCell(createInfoCell(session.getId().toString(), normalFont));
+        infoTable.addCell(createInfoCell(session.getId() != null ? session.getId().toString() : "Not assigned", normalFont));
         
         infoTable.addCell(createInfoCell("Class:", headerFont));
-        infoTable.addCell(createInfoCell(session.getClassName(), normalFont));
+        infoTable.addCell(createInfoCell(session.getClassName() != null ? session.getClassName() : "Unknown", normalFont));
         
         infoTable.addCell(createInfoCell("Created:", headerFont));
-        infoTable.addCell(createInfoCell(session.getCreatedAt().format(formatter), normalFont));
+        infoTable.addCell(createInfoCell(session.getCreatedAt() != null ? session.getCreatedAt().format(formatter) : "Unknown", normalFont));
         
         if (session.getCompletedAt() != null) {
             infoTable.addCell(createInfoCell("Completed:", headerFont));
@@ -132,6 +134,11 @@ public class PdfExportService {
     }
     
     private void addWinnerSection(Document document, VotingSession session, PdfFont headerFont, PdfFont normalFont) throws SQLException {
+        if (session.getId() == null) {
+            logger.warn("Session ID is null, skipping winner section");
+            return;
+        }
+        
         List<Parent> candidates = parentDAO.getCandidatesBySession(session.getId());
         Map<Integer, Integer> voteCounts = voteDAO.getVoteCountsBySession(session.getId());
         
@@ -203,6 +210,11 @@ public class PdfExportService {
     }
     
     private void addResultsTable(Document document, VotingSession session, PdfFont headerFont, PdfFont normalFont) throws SQLException {
+        if (session.getId() == null) {
+            logger.warn("Session ID is null, skipping results table");
+            return;
+        }
+        
         Paragraph tableHeader = new Paragraph("Complete Results")
                 .setFont(headerFont)
                 .setFontSize(16)
@@ -244,6 +256,11 @@ public class PdfExportService {
     }
     
     private void addVotingStatistics(Document document, VotingSession session, PdfFont headerFont, PdfFont normalFont) throws SQLException {
+        if (session.getId() == null) {
+            logger.warn("Session ID is null, skipping voting statistics");
+            return;
+        }
+        
         Paragraph statsHeader = new Paragraph("Voting Statistics")
                 .setFont(headerFont)
                 .setFontSize(16)

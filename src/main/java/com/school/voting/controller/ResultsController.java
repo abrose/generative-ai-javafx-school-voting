@@ -219,7 +219,13 @@ public class ResultsController implements Initializable {
             // Try to open the file or its directory
             if (java.awt.Desktop.isDesktopSupported()) {
                 try {
-                    java.awt.Desktop.getDesktop().open(pdfFile.getParentFile());
+                    java.io.File parentDir = pdfFile.getParentFile();
+                    if (parentDir != null) {
+                        java.awt.Desktop.getDesktop().open(parentDir);
+                    } else {
+                        // If no parent directory, open current working directory
+                        java.awt.Desktop.getDesktop().open(new java.io.File("."));
+                    }
                 } catch (Exception e) {
                     logger.warn("Could not open file location", e);
                 }
