@@ -31,6 +31,7 @@ public class AdminController implements Initializable {
     
     @FXML private TextField classNameField;
     @FXML private Button createSessionBtn;
+    @FXML private Button resetSessionBtn;
     @FXML private Label sessionInfoLabel;
     
     @FXML private TextField parentNameField;
@@ -42,6 +43,8 @@ public class AdminController implements Initializable {
     @FXML private Label candidateCountLabel;
     
     @FXML private Button startVotingBtn;
+    @FXML private Button continueVotingBtn;
+    @FXML private Button viewResultsBtn;
     @FXML private Label statusLabel;
     
     private final SessionManager sessionManager = SessionManager.getInstance();
@@ -66,9 +69,31 @@ public class AdminController implements Initializable {
             classNameField.setText(session.getClassName());
             classNameField.setDisable(true);
             createSessionBtn.setDisable(true);
+            resetSessionBtn.setVisible(true);
             
-            if (session.getStatus() == VotingSession.Status.SETUP) {
-                loadParents();
+            switch (session.getStatus()) {
+                case SETUP:
+                    loadParents();
+                    statusLabel.setText("Session in setup phase - add parents and select candidates");
+                    break;
+                    
+                case VOTING:
+                    loadParents();
+                    disableParentManagement();
+                    disableCandidateManagement();
+                    startVotingBtn.setVisible(false);
+                    continueVotingBtn.setVisible(true);
+                    statusLabel.setText("Voting is in progress - continue voting or reset session");
+                    break;
+                    
+                case COMPLETED:
+                    loadParents();
+                    disableParentManagement();
+                    disableCandidateManagement();
+                    startVotingBtn.setVisible(false);
+                    viewResultsBtn.setVisible(true);
+                    statusLabel.setText("Voting completed - view results or start new session");
+                    break;
             }
         }
     }
@@ -267,6 +292,89 @@ public class AdminController implements Initializable {
         } else {
             statusLabel.setText("Ready to start voting with " + candidateCount + " candidates");
         }
+    }
+    
+    @FXML
+    private void handleResetSession() {
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Reset Session");
+        confirm.setHeaderText("This will permanently delete the current session and all its data.");
+        confirm.setContentText("Are you sure you want to reset the session? This cannot be undone.");
+        
+        confirm.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                try {
+                    sessionManager.resetSession();
+                    resetUI();
+                    showAlert(Alert.AlertType.INFORMATION, "Success", "Session has been reset");
+                } catch (Exception e) {
+                    logger.error("Failed to reset session", e);
+                    showAlert(Alert.AlertType.ERROR, "Error", "Failed to reset session: " + e.getMessage());
+                }
+            }
+        });
+    }
+    
+    @FXML
+    private void handleContinueVoting() {
+        if (viewFactory != null) {
+            viewFactory.showVotingView();
+        }
+    }
+    
+    @FXML
+    private void handleViewResults() {
+        if (viewFactory != null) {
+            viewFactory.showResultsView();
+        }
+    }
+    
+    private void disableParentManagement() {
+        parentNameField.setDisable(true);
+        addParentBtn.setDisable(true);
+        // Disable delete buttons on existing parent entries
+        parentsListContainer.getChildren().forEach(node -> {
+            if (node instanceof HBox) {
+                HBox hbox = (HBox) node;
+                hbox.getChildren().forEach(child -> {
+                    if (child instanceof Button && ((Button) child).getText().equals("Delete")) {
+                        child.setDisable(true);
+                    }
+                });
+            }
+        });
+    }
+    
+    private void disableCandidateManagement() {
+        candidateCheckBoxes.values().forEach(checkBox -> checkBox.setDisable(true));
+    }
+    
+    private void resetUI() {
+        // Reset form fields
+        classNameField.setText("");
+        classNameField.setDisable(false);
+        parentNameField.setText("");
+        parentNameField.setDisable(false);
+        
+        // Reset buttons
+        createSessionBtn.setDisable(false);
+        resetSessionBtn.setVisible(false);
+        addParentBtn.setDisable(false);
+        startVotingBtn.setVisible(true);
+        startVotingBtn.setDisable(true);
+        continueVotingBtn.setVisible(false);
+        viewResultsBtn.setVisible(false);
+        
+        // Clear containers
+        parentsListContainer.getChildren().clear();
+        candidatesListContainer.getChildren().clear();
+        candidateCheckBoxes.clear();
+        
+        // Reset labels
+        sessionInfoLabel.setText("No active session");
+        parentCountLabel.setText("Parents: 0");
+        candidateCountLabel.setText("Selected Candidates: 0");
+        statusLabel.setText("Create a new session to start");
     }
     
     private void showAlert(Alert.AlertType type, String title, String content) {

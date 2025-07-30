@@ -24,6 +24,8 @@
                 <Label text="Class Name:"/>
                 <TextField fx:id="classNameField" prefWidth="200" promptText="Enter class name"/>
                 <Button fx:id="createSessionBtn" text="Create New Session" onAction="#handleCreateSession"/>
+                <Button fx:id="resetSessionBtn" text="Reset Session" onAction="#handleResetSession" 
+                        styleClass="warning-button" visible="false"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Label fx:id="sessionInfoLabel" text="No active session" styleClass="session-info"/>
             </HBox>
@@ -95,6 +97,18 @@
             </padding>
             <Button fx:id="startVotingBtn" text="Start Voting" prefWidth="200" prefHeight="40"
                     onAction="#handleStartVoting" disable="true" styleClass="primary-button">
+                <font>
+                    <Font size="16.0"/>
+                </font>
+            </Button>
+            <Button fx:id="continueVotingBtn" text="Continue Voting" prefWidth="200" prefHeight="40"
+                    onAction="#handleContinueVoting" visible="false" styleClass="primary-button">
+                <font>
+                    <Font size="16.0"/>
+                </font>
+            </Button>
+            <Button fx:id="viewResultsBtn" text="View Results" prefWidth="200" prefHeight="40"
+                    onAction="#handleViewResults" visible="false" styleClass="primary-button">
                 <font>
                     <Font size="16.0"/>
                 </font>

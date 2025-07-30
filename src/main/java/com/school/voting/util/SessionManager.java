@@ -48,6 +48,14 @@ public class SessionManager {
                 this.currentSession = session.get();
                 logger.info("Loaded session: {} with status: {}", 
                     currentSession.getId(), currentSession.getStatus());
+                
+                // If session is in VOTING status, restore voting state
+                if (currentSession.getStatus() == VotingSession.Status.VOTING) {
+                    loadVoters();
+                    currentVoterIndex = 0;
+                    logger.info("Restored voting state - {} remaining voters", 
+                        currentVoters != null ? currentVoters.size() : 0);
+                }
             }
         } catch (SQLException e) {
             logger.error("Failed to load current session", e);
@@ -112,14 +120,18 @@ public class SessionManager {
     
     public Parent getCurrentVoter() {
         if (currentVoters == null || currentVoters.isEmpty()) {
+            logger.debug("No current voters available");
             return null;
         }
         
         if (currentVoterIndex >= currentVoters.size()) {
+            logger.debug("Current voter index {} exceeds voter count {}", currentVoterIndex, currentVoters.size());
             return null;
         }
         
-        return currentVoters.get(currentVoterIndex);
+        Parent currentVoter = currentVoters.get(currentVoterIndex);
+        logger.debug("Current voter: {} (index {}/{})", currentVoter.getName(), currentVoterIndex, currentVoters.size());
+        return currentVoter;
     }
     
     public Parent getNextVoter() throws SQLException {
@@ -205,5 +217,25 @@ public class SessionManager {
         currentSession = null;
         currentVoters = null;
         currentVoterIndex = 0;
+    }
+    
+    public void resetSession() throws SQLException {
+        if (currentSession != null) {
+            Integer sessionId = currentSession.getId();
+            
+            // Delete all votes for this session
+            voteDAO.deleteVotesBySession(sessionId);
+            
+            // Delete all parents for this session  
+            parentDAO.deleteParentsBySession(sessionId);
+            
+            // Delete the session itself
+            sessionDAO.deleteSession(sessionId);
+            
+            logger.info("Reset session: {} (deleted all data)", sessionId);
+        }
+        
+        // Clear in-memory state
+        clearSession();
     }
 }

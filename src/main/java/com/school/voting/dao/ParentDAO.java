@@ -187,6 +187,18 @@ public class ParentDAO {
             stmt.executeUpdate();
         }
     }
+    
+    public void deleteParentsBySession(int sessionId) throws SQLException {
+        String sql = "DELETE FROM parents WHERE session_id = ?";
+        
+        try (Connection conn = dbManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, sessionId);
+            int deleted = stmt.executeUpdate();
+            logger.info("Deleted {} parents for session {}", deleted, sessionId);
+        }
+    }
 
     public int getParentCount(int sessionId) throws SQLException {
         String sql = "SELECT COUNT(*) FROM parents WHERE session_id = ?";
