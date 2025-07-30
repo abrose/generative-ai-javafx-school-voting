@@ -139,9 +139,17 @@ public class SessionManager {
     }
     
     public void skipCurrentVoter() throws SQLException {
-        if (getCurrentVoter() != null) {
-            logger.info("Skipped voter: {}", getCurrentVoter().getName());
-            getNextVoter();
+        Parent currentVoter = getCurrentVoter();
+        if (currentVoter != null) {
+            logger.info("Skipping voter: {} (ID: {})", currentVoter.getName(), currentVoter.getId());
+            
+            // Mark parent as voted (even though skipped, they won't vote again)
+            parentDAO.markAsVoted(currentVoter.getId());
+            
+            // Move to next voter
+            Parent nextVoter = getNextVoter();
+            logger.info("Next voter after skipped {}: {}", currentVoter.getName(), 
+                       nextVoter != null ? nextVoter.getName() : "None (voting complete)");
         }
     }
     
