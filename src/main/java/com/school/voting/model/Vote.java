@@ -28,9 +28,7 @@ public final class Vote {
     }
 
     private void validate() {
-        if (voterId.equals(candidateId)) {
-            throw new IllegalArgumentException("A parent cannot vote for themselves");
-        }
+        // Self-voting is now allowed - no validation restrictions
     }
 
     public Integer getId() {

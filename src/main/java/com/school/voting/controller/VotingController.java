@@ -123,11 +123,7 @@ public class VotingController implements Initializable {
         int col = 0;
         
         for (Parent candidate : candidates) {
-            // Skip if the candidate is the current voter (can't vote for themselves)
-            if (currentVoter != null && candidate.getId().equals(currentVoter.getId())) {
-                continue;
-            }
-            
+            // Self-voting is now allowed - all candidates including current voter are shown
             Button candidateBtn = createCandidateButton(candidate);
             candidatesGrid.add(candidateBtn, col, row);
             
