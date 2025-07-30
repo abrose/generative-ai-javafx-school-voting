@@ -206,28 +206,41 @@ public class ResultsController implements Initializable {
             // Export to PDF
             java.io.File pdfFile = pdfExportService.exportResults(session);
             
-            // Show success message with file location
-            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+            // Show success message with option to open PDF
+            Alert successAlert = new Alert(Alert.AlertType.CONFIRMATION);
             successAlert.setTitle("Export Successful");
             successAlert.setHeaderText("Results exported successfully!");
             successAlert.setContentText("PDF saved as: " + pdfFile.getName() + 
-                                       "\nLocation: " + pdfFile.getAbsolutePath());
+                                       "\nLocation: " + pdfFile.getAbsolutePath() +
+                                       "\n\nWould you like to open the PDF now?");
             
-            // Add button to open file location
-            successAlert.showAndWait();
+            ButtonType openButton = new ButtonType("Open PDF");
+            ButtonType cancelButton = new ButtonType("Just Save", ButtonBar.ButtonData.CANCEL_CLOSE);
+            successAlert.getButtonTypes().setAll(openButton, cancelButton);
             
-            // Try to open the file or its directory
-            if (java.awt.Desktop.isDesktopSupported()) {
+            boolean shouldOpenPdf = successAlert.showAndWait()
+                    .filter(response -> response == openButton)
+                    .isPresent();
+            
+            // Open PDF if user requested it
+            if (shouldOpenPdf && java.awt.Desktop.isDesktopSupported()) {
                 try {
-                    java.io.File parentDir = pdfFile.getParentFile();
-                    if (parentDir != null) {
-                        java.awt.Desktop.getDesktop().open(parentDir);
+                    java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+                    if (desktop.isSupported(java.awt.Desktop.Action.OPEN)) {
+                        desktop.open(pdfFile);
+                        logger.info("Opened PDF file with default viewer: {}", pdfFile.getName());
                     } else {
-                        // If no parent directory, open current working directory
-                        java.awt.Desktop.getDesktop().open(new java.io.File("."));
+                        logger.warn("Desktop OPEN action not supported on this platform");
+                        showAlert(Alert.AlertType.WARNING, "Cannot Open PDF", 
+                                 "Your system doesn't support opening files automatically. " +
+                                 "Please navigate to the file location and open it manually.");
                     }
                 } catch (Exception e) {
-                    logger.warn("Could not open file location", e);
+                    logger.warn("Could not open PDF file with default viewer", e);
+                    showAlert(Alert.AlertType.WARNING, "Cannot Open PDF", 
+                             "Could not open the PDF automatically. " +
+                             "Please navigate to: " + pdfFile.getAbsolutePath() + 
+                             " and open it manually.");
                 }
             }
             
