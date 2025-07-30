@@ -1,0 +1,16 @@
+{
+  "name": "school-voting",
+  "version": "1.0.0",
+  "description": "A voting system for parent spokesperson elections in schools",
+  "scripts": {
+    "test": "./test.sh",
+    "test:maven": "mvn test",
+    "test:quick": "mvn test -q",
+    "dev": "mvn javafx:run",
+    "build": "mvn clean compile",
+    "package": "mvn clean package"
+  },
+  "keywords": ["java", "javafx", "voting", "school", "elections"],
+  "author": "School Voting Team",
+  "license": "MIT"
+}

@@ -121,11 +121,23 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
+                    <!-- Enable colored output and clean formatting -->
                     <useFile>false</useFile>
+                    <trimStackTrace>false</trimStackTrace>
+                    <printSummary>true</printSummary>
+                    <reportFormat>brief</reportFormat>
                     <includes>
                         <include>**/*Test.java</include>
                         <include>**/*Tests.java</include>
                     </includes>
+                    
+                    <!-- System properties for better test output -->
+                    <systemPropertyVariables>
+                        <junit.jupiter.displayname.generator.default>org.junit.jupiter.api.DisplayNameGenerator$ReplaceUnderscores</junit.jupiter.displayname.generator.default>
+                        <junit.jupiter.execution.parallel.enabled>false</junit.jupiter.execution.parallel.enabled>
+                    </systemPropertyVariables>
+                    
+                    <!-- Configure JUnit 5 reporting for clean output -->
                     <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
                         <disable>false</disable>
                         <version>3.0</version>
@@ -134,11 +146,15 @@
                         <usePhrasedTestCaseClassName>true</usePhrasedTestCaseClassName>
                         <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
                     </statelessTestsetReporter>
+                    
+                    <!-- Clean console output -->
                     <consoleOutputReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
                         <disable>false</disable>
                         <encoding>UTF-8</encoding>
                         <usePhrasedFileName>false</usePhrasedFileName>
                     </consoleOutputReporter>
+                    
+                    <!-- Enhanced test info reporting -->
                     <statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoReporter">
                         <disable>false</disable>
                         <usePhrasedFileName>false</usePhrasedFileName>
