@@ -1,0 +1,297 @@
+/* ABOUTME: Main stylesheet for the school voting application
+   ABOUTME: Provides consistent styling across all views */
+
+/* Root styles */
+.root {
+    -fx-font-family: "System", "Segoe UI", "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-background-color: #f0f0f0;
+}
+
+/* Header styles */
+.header {
+    -fx-background-color: #2c3e50;
+    -fx-text-fill: white;
+}
+
+.header Label {
+    -fx-text-fill: white;
+}
+
+.title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.session-info {
+    -fx-font-style: italic;
+    -fx-text-fill: #ecf0f1;
+}
+
+/* Panel styles */
+.panel {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.panel-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.section-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+}
+
+.count-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #7f8c8d;
+}
+
+/* Input styles */
+TextField {
+    -fx-font-size: 14px;
+    -fx-padding: 8 12 8 12;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+}
+
+TextField:focused {
+    -fx-border-color: #3498db;
+}
+
+/* Button styles */
+Button {
+    -fx-font-size: 14px;
+    -fx-padding: 8 16 8 16;
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-cursor: hand;
+}
+
+Button:hover {
+    -fx-background-color: #2980b9;
+}
+
+Button:pressed {
+    -fx-background-color: #21618c;
+}
+
+Button:disabled {
+    -fx-background-color: #bdc3c7;
+    -fx-text-fill: #7f8c8d;
+}
+
+.primary-button {
+    -fx-background-color: #27ae60;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.primary-button:hover {
+    -fx-background-color: #229954;
+}
+
+.primary-button:pressed {
+    -fx-background-color: #1e7e34;
+}
+
+.delete-button {
+    -fx-background-color: #e74c3c;
+    -fx-font-size: 12px;
+    -fx-padding: 4 8 4 8;
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b;
+}
+
+/* List item styles */
+.parent-item {
+    -fx-background-color: #ecf0f1;
+    -fx-padding: 5;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+}
+
+.parent-item:hover {
+    -fx-background-color: #d5dbdb;
+}
+
+/* CheckBox styles */
+CheckBox {
+    -fx-font-size: 14px;
+    -fx-padding: 5;
+}
+
+CheckBox:selected .box {
+    -fx-background-color: #27ae60;
+}
+
+/* Action bar */
+.action-bar {
+    -fx-background-color: #ecf0f1;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1 0 0 0;
+}
+
+.status-label {
+    -fx-font-style: italic;
+    -fx-text-fill: #7f8c8d;
+}
+
+/* Voting view styles */
+.voting-header {
+    -fx-background-color: #34495e;
+    -fx-padding: 20;
+}
+
+.voter-name {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.voting-instruction {
+    -fx-font-size: 18px;
+    -fx-text-fill: #ecf0f1;
+}
+
+.candidate-button {
+    -fx-font-size: 20px;
+    -fx-padding: 20;
+    -fx-min-width: 250;
+    -fx-min-height: 80;
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.candidate-button:hover {
+    -fx-background-color: #2980b9;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.skip-button {
+    -fx-background-color: #95a5a6;
+    -fx-font-size: 16px;
+}
+
+.skip-button:hover {
+    -fx-background-color: #7f8c8d;
+}
+
+/* Results view styles */
+.results-container {
+    -fx-background-color: white;
+    -fx-padding: 30;
+}
+
+.winner-label {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #27ae60;
+}
+
+.deputy-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3498db;
+}
+
+.vote-count {
+    -fx-font-size: 18px;
+    -fx-text-fill: #7f8c8d;
+}
+
+/* Progress indicator */
+.progress-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #ecf0f1;
+    -fx-font-weight: bold;
+}
+
+/* Progress bar styling */
+.progress-bar {
+    -fx-accent: #27ae60;
+    -fx-pref-height: 12px;
+}
+
+.progress-bar .bar {
+    -fx-background-color: #27ae60;
+    -fx-background-radius: 6;
+    -fx-background-insets: 0;
+}
+
+.progress-bar .track {
+    -fx-background-color: #34495e;
+    -fx-background-radius: 6;
+    -fx-background-insets: 0;
+}
+
+/* Enhanced results styling */
+.results-container {
+    -fx-background-color: #f8f9fa;
+}
+
+.results-winner {
+    -fx-background-color: #d4edda;
+    -fx-border-color: #27ae60;
+    -fx-border-width: 2;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.results-deputy {
+    -fx-background-color: #cce7ff;
+    -fx-border-color: #3498db;
+    -fx-border-width: 2;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+/* Table styling enhancements */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+}
+
+.table-view .column-header {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #f8f9fa;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: white;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+
+/* Statistics panel styling */
+.stats-panel {
+    -fx-background-color: #ecf0f1;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}

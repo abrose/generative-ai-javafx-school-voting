@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.school.voting.controller.AdminController"
+            prefHeight="600.0" prefWidth="800.0">
+    
+    <!-- Header -->
+    <top>
+        <VBox spacing="10" styleClass="header">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label text="School Voting System - Admin Panel" styleClass="title">
+                <font>
+                    <Font size="24.0"/>
+                </font>
+            </Label>
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Label text="Class Name:"/>
+                <TextField fx:id="classNameField" prefWidth="200" promptText="Enter class name"/>
+                <Button fx:id="createSessionBtn" text="Create New Session" onAction="#handleCreateSession"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="sessionInfoLabel" text="No active session" styleClass="session-info"/>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <!-- Main Content -->
+    <center>
+        <SplitPane dividerPositions="0.5" prefHeight="400.0">
+            <!-- Left Panel - Add Parents -->
+            <VBox spacing="10" styleClass="panel">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <Label text="Add Parents" styleClass="panel-title">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <TextField fx:id="parentNameField" prefWidth="250" 
+                               promptText="Enter parent name" onAction="#handleAddParent"/>
+                    <Button fx:id="addParentBtn" text="Add Parent" onAction="#handleAddParent"/>
+                </HBox>
+                
+                <Label text="Parents List:" styleClass="section-label"/>
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                    <VBox fx:id="parentsListContainer" spacing="5">
+                        <padding>
+                            <Insets top="5" right="5" bottom="5" left="5"/>
+                        </padding>
+                    </VBox>
+                </ScrollPane>
+                
+                <Label fx:id="parentCountLabel" text="Total Parents: 0" styleClass="count-label"/>
+            </VBox>
+            
+            <!-- Right Panel - Select Candidates -->
+            <VBox spacing="10" styleClass="panel">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <Label text="Select Candidates" styleClass="panel-title">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                
+                <Label text="Check parents who can be voted for:" styleClass="section-label"/>
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                    <VBox fx:id="candidatesListContainer" spacing="5">
+                        <padding>
+                            <Insets top="5" right="5" bottom="5" left="5"/>
+                        </padding>
+                    </VBox>
+                </ScrollPane>
+                
+                <Label fx:id="candidateCountLabel" text="Selected Candidates: 0" styleClass="count-label"/>
+            </VBox>
+        </SplitPane>
+    </center>
+    
+    <!-- Bottom Actions -->
+    <bottom>
+        <HBox spacing="20" alignment="CENTER" styleClass="action-bar">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Button fx:id="startVotingBtn" text="Start Voting" prefWidth="200" prefHeight="40"
+                    onAction="#handleStartVoting" disable="true" styleClass="primary-button">
+                <font>
+                    <Font size="16.0"/>
+                </font>
+            </Button>
+            <Label fx:id="statusLabel" text="Add parents and select at least 2 candidates to start voting" 
+                   styleClass="status-label"/>
+        </HBox>
+    </bottom>
+</BorderPane>

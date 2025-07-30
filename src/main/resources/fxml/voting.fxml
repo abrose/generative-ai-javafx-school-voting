@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.school.voting.controller.VotingController"
+            prefHeight="700.0" prefWidth="900.0">
+    
+    <!-- Header with current voter info -->
+    <top>
+        <VBox spacing="15" styleClass="voting-header">
+            <padding>
+                <Insets top="30" right="30" bottom="30" left="30"/>
+            </padding>
+            
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Label fx:id="currentVoterLabel" text="Current Voter: Loading..." styleClass="voter-name">
+                    <font>
+                        <Font size="32.0"/>
+                    </font>
+                </Label>
+                <Region HBox.hgrow="ALWAYS"/>
+                <VBox spacing="5" alignment="CENTER_RIGHT">
+                    <Label fx:id="progressLabel" text="Voter 1 of 15" styleClass="progress-label">
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </Label>
+                    <ProgressBar fx:id="votingProgressBar" prefWidth="200" prefHeight="12"/>
+                </VBox>
+            </HBox>
+            
+            <Label text="Please select who you want to vote for as class spokesperson:" 
+                   styleClass="voting-instruction">
+                <font>
+                    <Font size="20.0"/>
+                </font>
+            </Label>
+        </VBox>
+    </top>
+    
+    <!-- Main voting area -->
+    <center>
+        <VBox spacing="30" alignment="CENTER">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
+            
+            <!-- Candidates grid -->
+            <GridPane fx:id="candidatesGrid" hgap="20" vgap="20" alignment="CENTER">
+                <!-- Candidates will be added programmatically -->
+            </GridPane>
+            
+            <!-- Action buttons -->
+            <HBox spacing="30" alignment="CENTER">
+                <Button fx:id="skipVoterBtn" text="Skip This Voter" 
+                        prefWidth="200" prefHeight="50" styleClass="skip-button"
+                        onAction="#handleSkipVoter">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Button>
+                
+                <Button fx:id="endVotingBtn" text="End Voting Session" 
+                        prefWidth="200" prefHeight="50" styleClass="delete-button"
+                        onAction="#handleEndVoting">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Button>
+            </HBox>
+        </VBox>
+    </center>
+    
+    <!-- Bottom status bar -->
+    <bottom>
+        <HBox spacing="20" alignment="CENTER_LEFT" styleClass="action-bar">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+            
+            <Label fx:id="sessionInfoLabel" text="Session: 6c - Voting in Progress" 
+                   styleClass="session-info"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="statusLabel" text="Select a candidate to continue" 
+                   styleClass="status-label"/>
+        </HBox>
+    </bottom>
+</BorderPane>

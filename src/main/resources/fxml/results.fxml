@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.school.voting.controller.ResultsController"
+            prefHeight="700.0" prefWidth="900.0">
+    
+    <!-- Header -->
+    <top>
+        <VBox spacing="20" styleClass="voting-header">
+            <padding>
+                <Insets top="30" right="30" bottom="30" left="30"/>
+            </padding>
+            
+            <Label text="Voting Results" styleClass="title">
+                <font>
+                    <Font size="36.0"/>
+                </font>
+            </Label>
+            
+            <Label fx:id="sessionInfoLabel" text="Session: 6c - Completed" styleClass="voting-instruction">
+                <font>
+                    <Font size="18.0"/>
+                </font>
+            </Label>
+        </VBox>
+    </top>
+    
+    <!-- Main results area -->
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true">
+            <VBox spacing="30" styleClass="results-container">
+                <padding>
+                    <Insets top="40" right="40" bottom="40" left="40"/>
+                </padding>
+                
+                <!-- Winner section -->
+                <VBox spacing="15" alignment="CENTER" styleClass="panel, results-winner">
+                    <padding>
+                        <Insets top="30" right="30" bottom="30" left="30"/>
+                    </padding>
+                    
+                    <Label text="🏆 CLASS SPOKESPERSON" styleClass="section-label">
+                        <font>
+                            <Font size="24.0"/>
+                        </font>
+                    </Label>
+                    
+                    <Label fx:id="winnerNameLabel" text="Loading..." styleClass="winner-label">
+                        <font>
+                            <Font size="42.0"/>
+                        </font>
+                    </Label>
+                    
+                    <Label fx:id="winnerVotesLabel" text="0 votes" styleClass="vote-count">
+                        <font>
+                            <Font size="20.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+                
+                <!-- Deputy section -->
+                <VBox spacing="15" alignment="CENTER" styleClass="panel, results-deputy">
+                    <padding>
+                        <Insets top="20" right="30" bottom="20" left="30"/>
+                    </padding>
+                    
+                    <Label text="🥈 DEPUTY SPOKESPERSON" styleClass="section-label">
+                        <font>
+                            <Font size="20.0"/>
+                        </font>
+                    </Label>
+                    
+                    <Label fx:id="deputyNameLabel" text="Loading..." styleClass="deputy-label">
+                        <font>
+                            <Font size="28.0"/>
+                        </font>
+                    </Label>
+                    
+                    <Label fx:id="deputyVotesLabel" text="0 votes" styleClass="vote-count">
+                        <font>
+                            <Font size="16.0"/>
+                        </font>
+                    </Label>
+                </VBox>
+                
+                <!-- Full results table -->
+                <VBox spacing="15" styleClass="panel">
+                    <padding>
+                        <Insets top="20" right="30" bottom="20" left="30"/>
+                    </padding>
+                    
+                    <Label text="Complete Results" styleClass="panel-title">
+                        <font>
+                            <Font size="20.0"/>
+                        </font>
+                    </Label>
+                    
+                    <TableView fx:id="resultsTable" prefHeight="200">
+                        <columns>
+                            <TableColumn fx:id="candidateColumn" text="Candidate" prefWidth="300"/>
+                            <TableColumn fx:id="votesColumn" text="Votes" prefWidth="100"/>
+                            <TableColumn fx:id="percentageColumn" text="Percentage" prefWidth="150"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+                
+                <!-- Voting summary -->
+                <HBox spacing="40" alignment="CENTER" styleClass="panel, stats-panel">
+                    <padding>
+                        <Insets top="20" right="30" bottom="20" left="30"/>
+                    </padding>
+                    
+                    <VBox spacing="5" alignment="CENTER">
+                        <Label text="Total Votes Cast" styleClass="section-label"/>
+                        <Label fx:id="totalVotesLabel" text="0" styleClass="vote-count">
+                            <font>
+                                <Font size="24.0"/>
+                            </font>
+                        </Label>
+                    </VBox>
+                    
+                    <VBox spacing="5" alignment="CENTER">
+                        <Label text="Total Parents" styleClass="section-label"/>
+                        <Label fx:id="totalParentsLabel" text="0" styleClass="vote-count">
+                            <font>
+                                <Font size="24.0"/>
+                            </font>
+                        </Label>
+                    </VBox>
+                    
+                    <VBox spacing="5" alignment="CENTER">
+                        <Label text="Turnout" styleClass="section-label"/>
+                        <Label fx:id="turnoutLabel" text="0%" styleClass="vote-count">
+                            <font>
+                                <Font size="24.0"/>
+                            </font>
+                        </Label>
+                    </VBox>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+    
+    <!-- Bottom actions -->
+    <bottom>
+        <HBox spacing="20" alignment="CENTER" styleClass="action-bar">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <Button fx:id="newSessionBtn" text="Start New Session" 
+                    prefWidth="200" prefHeight="40" styleClass="primary-button"
+                    onAction="#handleNewSession">
+                <font>
+                    <Font size="16.0"/>
+                </font>
+            </Button>
+            
+            <Button fx:id="exportResultsBtn" text="Export Results" 
+                    prefWidth="150" prefHeight="40"
+                    onAction="#handleExportResults">
+                <font>
+                    <Font size="16.0"/>
+                </font>
+            </Button>
+        </HBox>
+    </bottom>
+</BorderPane>
