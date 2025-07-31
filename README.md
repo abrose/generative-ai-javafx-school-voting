@@ -75,11 +75,11 @@ The School Voting System is a desktop application designed to facilitate democra
 
 ## 📸 Screenshots
 
-![[./assets/screenshots/Screenshot_1.png]]
+![Screenshot 1](./assets/screenshots/Screenshot_1.png)
 
-![[./assets/screenshots/Screenshot_2.png]]
+![Screenshot 2](./assets/screenshots/Screenshot_2.png)
 
-![[./assets/screenshots/Screenshot_3.png]]
+![Screenshot 3](./assets/screenshots/Screenshot_3.png)
 
 ### Admin Panel
 - Parent management interface
